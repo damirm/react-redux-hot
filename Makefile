@@ -7,4 +7,4 @@ run::
 deps::
 	npm i
 
-.PHONY = clean deps
+.PHONY = clean deps run
