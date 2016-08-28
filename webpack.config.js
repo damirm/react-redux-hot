@@ -17,6 +17,11 @@ const BROWSER_SUPPORT = [
 
 const extractCss = new ExtractTextPlugin('[name].css');
 
+const devServerEnabled = config.webpack.useDevServer;
+
+const wds = config.webpack.wds;
+const wdsUrl = devServerEnabled ? `${wds.protocol}://${wds.host}:${wds.port}` : '';
+
 module.exports = {
     context: config.bundles.context,
 
@@ -25,7 +30,7 @@ module.exports = {
     output: {
         path: config.bundles.dist,
         filename: `[name].js`,
-        publicPath: config.bundles.basePath
+        publicPath: `${wdsUrl}${config.bundles.basePath}`
     },
 
     resolve: {
@@ -66,9 +71,16 @@ module.exports = {
         })
     ],
 
-    devtool: IS_DEV
-        ? "eval"
-        : null
+    devtool: IS_DEV ? "eval" : null,
+
+    devServer: {
+        port: wds.port,
+        contentBase: config.bundles.dist,
+
+        proxy: {
+            "**": `http://${config.server.host}:${config.server.port}`
+        }
+    }
 };
 
 function entries(dir) {
@@ -78,7 +90,9 @@ function entries(dir) {
      * In development mode enable hot reaload features
      */
     const devEntries = [
-        'webpack-hot-middleware/client'
+        devServerEnabled
+            ? ''
+            : 'webpack-hot-middleware/client'
     ];
 
     const entry = containers.reduce((result, container) => {

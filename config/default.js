@@ -15,6 +15,7 @@ module.exports = {
     root: ROOT,
     environment: process.env.NODE_ENV || 'development',
     server: {
+        host: 'localhost',
         port: process.env.NODE_PORT || 8080,
 
         views: {
@@ -28,5 +29,16 @@ module.exports = {
         basePath: '/dist/'
     },
 
-    defaultBundle: 'app'
+    defaultBundle: 'app',
+
+    webpack: {
+        useDevServer: false,
+
+        wds: {
+            port: process.env.WDS_PORT || 8081,
+            contentBase: ROOT,
+            host: 'localhost',
+            protocol: 'http'
+        }
+    }
 };

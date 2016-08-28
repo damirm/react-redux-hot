@@ -6,4 +6,4 @@ RUN apt-get update && \
 WORKDIR /app
 COPY . /app
 
-CMD npm i && npm run dev
+CMD npm i && npm run server

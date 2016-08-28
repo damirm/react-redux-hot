@@ -6,7 +6,6 @@ import React, { PropTypes } from 'react';
 
 import Button from 'react-islands/components/Button';
 import ProgressBar from 'react-islands/components/ProgressBar';
-import Group from 'react-islands/components/Group';
 
 const Counter = (props) => {
     return (
